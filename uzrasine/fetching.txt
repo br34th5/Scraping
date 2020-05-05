@@ -1,0 +1,16 @@
+In [1]:
+fetch("https://www.worldometers.info/world-population/population-by-country/")
+
+In [2]:
+r = scrapy.Request(url="https://www.worldometers.info/world-population/population-by-country/")
+
+In [3]: 
+fetch(r)
+
+In [4]: 
+response.body
+
+In [5]:
+view(response)
+
+!! scrapy does not see javascript !!
