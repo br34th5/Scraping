@@ -13,4 +13,12 @@ response.body
 In [5]:
 view(response)
 
+title = response.xpath("//h1")
+or
+title = response.xpath("//h1/text()")
+
+title.get()
+
+
+
 !! scrapy does not see javascript !!
