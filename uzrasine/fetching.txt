@@ -19,6 +19,16 @@ title = response.xpath("//h1/text()")
 
 title.get()
 
+title_css = response.css("h1::text")
+title_css
+title_css.get()
 
+#looking at td elements that has a element and using text() function to show only text, no html
+countries = response.xpath("//td/a/text()").getall()
+countries
+
+#same with css
+countries_css = response.css("td a::text").getall()
+countries_css
 
 !! scrapy does not see javascript !!
