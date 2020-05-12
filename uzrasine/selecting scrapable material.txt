@@ -7,3 +7,5 @@ with XPath selector you can go up and down
 
 With CSS you cant, it's just cleaner and easier.
 https://try.jsoup.org/
+if you want to find an element with more than 1 class:
+.a.b
