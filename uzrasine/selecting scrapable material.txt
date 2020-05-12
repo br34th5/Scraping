@@ -1,3 +1,9 @@
 CTRL + SHIFT + I
 CTRL + SHIFT + P (Disable JS )
 Select element
+
+CSS vs XPath selectors
+with XPath selector you can go up and down
+
+With CSS you cant, it's just cleaner and easier.
+https://try.jsoup.org/
