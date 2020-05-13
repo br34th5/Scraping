@@ -9,3 +9,15 @@ With CSS you cant, it's just cleaner and easier.
 https://try.jsoup.org/
 if you want to find an element with more than 1 class:
 .a.b
+if you want to find an element from list:
+li[data-identifier=7] or just [data-identifier=7]
+if you want to find only links that has https:
+a[href^='https']
+end:
+a[href$='.com/']
+middle:
+a[href*='google']
+getting children elements:
+div.intro > p
+getting p element that is placed immidiatly after div
+div.intro + p 

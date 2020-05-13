@@ -16,4 +16,4 @@ class CountriesSpider(scrapy.Spider):
             'countries': countries
         }
 
-# to run the spider , terminal: scrapy crawl countries
+# to run the spider , terminal: scrapy crawl countries 
