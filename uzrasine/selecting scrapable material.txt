@@ -17,7 +17,13 @@ end:
 a[href$='.com/']
 middle:
 a[href*='google']
+between:
+a[href~='google']
+
 getting children elements:
 div.intro > p
 getting p element that is placed immidiatly after div
 div.intro + p 
+div.intro ~ p
+
+more at https://www.w3schools.com/cssref/css_selectors.asp
