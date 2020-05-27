@@ -22,3 +22,15 @@ if you want to choose div with a class of intro:
 //ul[@id='items']/li[1]
 
 //ul[@id='items']/li[position() >1 or position() = last()]
+
+#going up
+//p[@id='unique']/parent::node()
+//p[@id='unique']/ancestral-or-self::node()
+
+#going down
+//div[@class="intro"]/child::node()
+//div[@class="intro"]/following-sibling::node()
+
+#axes: 
+# parent - ancestor - preceding - preceding-sibling 
+# child - following - following-sibling - descendant
