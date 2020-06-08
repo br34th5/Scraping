@@ -39,3 +39,5 @@ class CountriesSpider(scrapy.Spider):
 
 # to run the spider , terminal: scrapy crawl countries 
 # (virtual_workspace) C:\Users\Einaras\projects\Scraping\worldometers\worldometers>scrapy crawl countries
+# scrapy crawl countries -o pop.json (or csv or xml)
+# alt + shift + f to auto sort
