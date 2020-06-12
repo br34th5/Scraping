@@ -16,3 +16,9 @@ class SpecialOffersSpider(scrapy.Spider):
                 'original_price': product.xpath(".//div[@class='p_box_price']/span[2]/text()").get(),
             }
 #debugging encoding of json files > settings.py > FEED_EXPORT_ENCODING = 'utf-8'
+
+        next_page = response.xpath("//a[@class='nextPage'/@href").get()
+    
+    # if there is another page it will scrape it 
+        if next_page:
+            yield scrapy.Request(url=next_page, callback=self.parse)
