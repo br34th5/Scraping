@@ -1,34 +1,33 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import CrawlSpider, Rule
 
 class GlassopSpider(scrapy.Spider):
     name = 'glassop'
-    allowed_domains = ['glassesshop.com']
+    allowed_domains = ['www.glassesshop.com']
+    start_urls = ['https://www.glassesshop.com/bestsellers']
 
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
-    
-    def start_requests(self):
-        #no need for call-back method inside request class
-        yield scrapy.Request(url='https://www.glassesshop.com/bestsellers', headers={
-            'User-Agent': self.user_agent
-        })
+    #Some glasses do have the price inside a 'del' element //del/text() while others are inside a 'span' element.
+    #This method will basically check the return type of this XPath expression //del/text() if it's set to None 
+    #then the original price will be extracted from the XPath expression I used in the else block.
+    def get_price(self, selector):
+        original_price = selector.xpath(
+            ".//del/text()").get()
+        if original_price is not None:
+            return original_price
+        else:
+            return selector.xpath(".//div[@class='row']/div[contains(@class, 'pprice')]/span/text()").get()
 
-    rules = (
-        Rule(LinkExtractor(restrict_xpaths=("//div[@class='col-12 pb-5 mb-lg-3 col-lg-4 product-list-row']")), callback='parse_item', follow=True, process_request='set_user_agent'),
-        Rule(LinkExtractor(restrict_xpaths="(//li[@class='page-item'][4]/a"), follow=True, process_request='set_user_agent')
-    )
+    def parse(self, response):
+        glasses = response.xpath("//div[contains(@class, 'm-p-product')]")
+        for glass in glasses:
+            yield {
+                'url': glass.xpath(".//div[@class='pimg default-image-front']/a/@href").get(),
+                'img_url': glass.xpath(".//div[@class='pimg default-image-front']/a/img[1]/@src").get(),
+                'name': glass.xpath(".//div[@class='row']/p[contains(@class, 'pname')]/a/text()").get(),
+                'price': self.get_price(glass)
+            }
 
-    def set_user_agent(self, request):
-        request.headers['User-Agent'] = self.user_agent
-        return request
-    
-    def parse_item(self, response):
-        yield {
-            'product_url': response.xpath('//div[@class="product-img-outer"]/a').get(),
-            'product_image_link': response.xpath("//img[@class='lazy w-100 product-img-second']").get(),
-            'product_name': response.xpath('').get(),
-            'product_price': response.xpath('').get()
-        }
-
+        next_page = response.xpath(
+            "//ul[@class='pagination']/li[position() = last()]/a/@href").get()
+        if next_page:
+            yield scrapy.Request(url=next_page, callback=self.parse)
