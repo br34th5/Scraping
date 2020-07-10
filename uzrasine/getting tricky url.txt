@@ -1,0 +1,13 @@
+problem:
+<a href="#" class="flo-image-block-5__image" style="background-image: url(https://www.anyurl.com/wp-content/uploads/2019/07/nphtbackdrop.jpg)" aria-label="apher"> </a>
+
+I was able to parse it down using: //a/@style
+
+but still have: 
+
+background-image: url(https://www.anyurl.com/wp-content/uploads/2019/07/nphtbackdrop.jpg)
+
+solution:
+url_style = response.xpath('YOUR XPATH').get()
+if url_style:
+    url = url_style.replace('background-image: url(', '').replace(')', '')
