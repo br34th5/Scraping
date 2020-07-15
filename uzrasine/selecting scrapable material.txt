@@ -1,4 +1,0 @@
-CTRL + SHIFT + I
-CTRL + SHIFT + P (Disable JS )
-Select element 
-CTRL + F (with Xpath you can see how many of those elements are per page. i.e: //h1 )
