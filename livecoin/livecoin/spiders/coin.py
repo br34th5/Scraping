@@ -31,4 +31,8 @@ class CoinSpider(scrapy.Spider):
     
     
     def parse(self, response):
-        print(response.body)
+        for currency in response.xpath('//div[contains(@class, "ReactVirtualized__Table__row tableRow___3EtiS ")]'):
+            yield {
+                'currency pair': currency.xpath(".//div[1]/div[1]/text()").get(),
+                'currency pair': currency.xpath(".//div[2]/span/text()").get(),
+            }
