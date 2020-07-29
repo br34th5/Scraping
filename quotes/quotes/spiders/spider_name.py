@@ -8,18 +8,9 @@ class SpiderNameSpider(scrapy.Spider):
 
     script = '''
         function main(splash, args)
-            splash.private_mode_enabled = false
-            url = args.url
-            assert(splash:go(url))
+            assert(splash:go(args.url))
             assert(splash:wait(1))
-            usd_tab = assert(splash:select_all(".quote"))
-            usd_tab[1]:mouse_click()
-            assert(splash:wait(1))
-            splash:set_viewport_full()
-            return {
-                html = splash:html(),
-                png = splash:png(),
-            }
+            return splash:html()
         end
     '''
     def start_requests(self):
@@ -29,9 +20,16 @@ class SpiderNameSpider(scrapy.Spider):
     
     
     def parse(self, response):
-        for quote in response.xpath("//div[@class='quote']"):
+        quotes = response.xpath("//div[@class='quote']")
+        for quote in quotes:
             yield {
-                'quote_text': quote.xpath(".//div[@class='quote']/span[1]/text()").get(),
-                'author': quote.xpath(".//div[@class='quote']/span[2]/small/text()").get(),
-                'tags': quote.xpath(".//div[@class='tags']/a/text()").get()
+                'quote_text': quote.xpath(".//span[@class='text']/text()").get(),
+                'author': quote.xpath(".//span[2]/small/text()").get(),
+                'tags': quote.xpath(".//div[@class='tags']/a/text()").getall()
             }
+        next_page = response.xpath('//li[@class="next"]/a/@href').get()
+        if next_page:
+            abosolute_url = f"http://quotes.toscrape.com{next_page}"
+            yield SplashRequest(url=abosolute_url, callback=self.parse, endpoint='execute', args={
+                'lua_source': self.script
+            })
