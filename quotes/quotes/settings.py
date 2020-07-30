@@ -14,8 +14,6 @@ BOT_NAME = 'quotes'
 SPIDER_MODULES = ['quotes.spiders']
 NEWSPIDER_MODULE = 'quotes.spiders'
 
-SPLASH_URL = 'http://192.168.59.103:8050'
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'quotes (+http://www.yourdomain.com)'
 
@@ -60,6 +58,7 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
+SPLASH_URL = 'http://localhost:8050/'
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
