@@ -1,0 +1,4 @@
+download scrapy-selenium 
+create this project and spider
+add chromedriver
+add scrapy-selenium in settings.py
