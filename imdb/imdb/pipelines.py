@@ -5,20 +5,22 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import logging
+import pymongo
 
-class ImdbPipeline(object):
-    
-    @classmethod
-    def from_crawler(cls, crawler):
-    #MONGO_URL is a variable that is located in settings.py
-        logging.warning(crawler.settings.get("MONGO_URL"))
-    
+
+class MongodbPipeline(object):
+    collection_name = "best_movies"    
     
     def open_spider(self, spider):
-        logging.warning("SPIDER OPENED FROM PIPELINE")
+        # what database you are connecting to. Remember to edit password in here
+        self.client = pymongo.MongoClient("mongodb+srv://einaras:<testtest>@cluster0-a2wki.mongodb.net/<dbname>?retryWrites=true&w=majority")
+        # creating table in the databse?
+        self.db = self.client["IMDB"]
     
     def close_spider(self, spider):
-        logging.warning("SPIDER CLOSED FROM PIPELINE")
+        self.client.close()
     
     def process_item(self, item, spider):
+        # saving each item scraped into database
+        self.db[self.collection_name].insert(item)
         return item
