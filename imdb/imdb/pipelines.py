@@ -13,7 +13,7 @@ class MongodbPipeline(object):
     
     def open_spider(self, spider):
         # what database you are connecting to. Remember to edit password in here
-        self.client = pymongo.MongoClient("mongodb+srv://einaras:<testtest>@cluster0-a2wki.mongodb.net/<dbname>?retryWrites=true&w=majority")
+        self.client = pymongo.MongoClient("mongodb+srv://einaras:test@cluster0-a2wki.mongodb.net/IMDB?retryWrites=true&w=majority")
         # creating table in the databse?
         self.db = self.client["IMDB"]
     
