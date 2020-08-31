@@ -65,7 +65,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'imdb.pipelines.MongodbPipeline': 300,
+   'imdb.pipelines.SQLlitePipeline': 300,
    # lower number means higher priority, i.e:
    #'imdb.pipelines.FilterDuplicate': 100,
 }
