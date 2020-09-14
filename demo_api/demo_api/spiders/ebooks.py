@@ -10,11 +10,12 @@ class EbooksSpider(scrapy.Spider):
     offset = 0
     
     allowed_domains = ['openlibrary.org']
+    handle_httpstatus_list = [400]
     start_urls = ['https://openlibrary.org/subjects/picture_books.json?limit=12']
     
     def parse(self, response):
         
-        if response.status == 500:
+        if response.status == 400:
             raise CloseSpider('Reached last page')
         
         resp = json.loads(response.body)
@@ -27,6 +28,6 @@ class EbooksSpider(scrapy.Spider):
         
         self.offset += self.INCREMENTED_BY
         yield scrapy.Request(
-            url=f'https://openlibrary.org/subjects/picture_books.json?limit=12&offset={self.offset}/',
+            url=f'https://openlibrary.org/subjects/picture_books.json?limit=12&offset={self.offset}',
             callback=self.parse
         )
