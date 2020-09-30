@@ -9,5 +9,17 @@ class OpenlibraryLoginSpider(scrapy.Spider):
 
     def parse(self, response):
         yield FormRequest.from_response(
-            
+            response,
+            formid='register',
+            formdata={
+                'username': 'ek4music@gmail.com',
+                'password': 'br34th5',
+                'redirect': 'https://openlibrary.org/',
+                'debug_token': '',
+                'login': 'Log In'
+            },
+            callback=self.after_login
         )
+
+    def after_login(self, response):
+        print('logged in')
